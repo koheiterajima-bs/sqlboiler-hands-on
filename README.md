@@ -11,3 +11,5 @@
 - モデルの生成
 `sqlboiler mysql`
 
+- プログラムの実行
+`go run main.go`

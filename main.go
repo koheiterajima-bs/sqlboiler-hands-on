@@ -2,19 +2,27 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"log"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/koheiterajima-bs/sqlboiler-hands-on/models"
-	"github.com/volatiletech/null"
+	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
-	"gopkg.in/volatiletech/null.v8"
 )
 
 func main() {
 	// DB接続の初期化
-	db := boil.GetDB()
+	db, err := sql.Open("mysql", "root:password@tcp(localhost:3308)/sqlboiler_demo")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	// boilのDB接続の設定
+	boil.SetDB(db)
 
 	// ユーザーの作成
 	user := models.User{
@@ -23,8 +31,8 @@ func main() {
 	}
 
 	// ユーザーを挿入
-	ctx := context.Background()
-	err := user.Insert(ctx, db, boil.Infer())
+	ctx := context.Background()              // contextの初期化
+	err = user.Insert(ctx, db, boil.Infer()) // boil.Infer()は、データベースのテーブルに挿入する際、フィールドとカラムの対応を自動的に推測するオプション
 	if err != nil {
 		log.Fatal(err)
 	}
