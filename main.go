@@ -8,8 +8,6 @@ import (
 	"github.com/volatiletech/sqlboiler/boil"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 
-	"github.com/koheiterajima-bs/sqlboiler-hands-on/models"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
